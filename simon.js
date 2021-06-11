@@ -1,15 +1,16 @@
 let buttonColors = ["red", "blue", "green", "yellow"];
 let gamePattern = [];
 let userClickPattern = [];
-let started = false;
 let level = 0;
 
-$("body").keydown(function () {
-  if (started == false) {
-    started = true;
-    nextSequence();
-  }
-});
+// let started = false;
+
+// $("body").keydown(function () {
+//   if (started == false) {
+//     started = true;
+//     nextSequence();
+//   }
+// });
 
 function nextSequence() {
   console.log("hello");
@@ -83,6 +84,9 @@ function startOver() {
 }
 
 function newGame() {
-  $(".new-game").addClass("hidden");
-  nextSequence();
+  $("h1").text("Level " + level);
+  setTimeout(function () {
+    $(".new-game").addClass("hidden");
+    nextSequence();
+  }, 500);
 }
