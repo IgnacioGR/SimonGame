@@ -5,29 +5,21 @@ let started = false;
 let level = 0;
 
 $("body").keydown(function () {
-  if (!started) {
-    nextSequence();
+  if (started == false) {
     started = true;
+    nextSequence();
   }
 });
 
-$(".btn").click(function () {
-  let userClick = $(this).attr("id");
-  userClickPattern.push(userClick);
-
-  makeSound(userClick);
-  animatePress(userClick);
-
-  checkAnswer(userClickPattern.length - 1);
-});
-
 function nextSequence() {
+  console.log("hello");
+
   userClickPattern = [];
 
   level++;
   $("h1").text("Level " + level);
 
-  let random = Math.floor(Math.random() * 5);
+  let random = Math.floor(Math.random() * 4);
   let randomChosenColor = buttonColors[random];
   gamePattern.push(randomChosenColor);
 
@@ -38,6 +30,16 @@ function nextSequence() {
 
   makeSound(randomChosenColor);
 }
+
+$(".btn").click(function () {
+  let userClick = $(this).attr("id");
+  userClickPattern.push(userClick);
+
+  makeSound(userClick);
+  animatePress(userClick);
+
+  checkAnswer(userClickPattern.length - 1);
+});
 
 function makeSound(color) {
   let audio = new Audio("sounds/" + color + ".mp3");
