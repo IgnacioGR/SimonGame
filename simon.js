@@ -1,16 +1,17 @@
 let buttonColors = ["red", "blue", "green", "yellow"];
 let gamePattern = [];
 let userClickPattern = [];
+let started = false;
 let level = 0;
 
-$("body").keydown(function (e) {
-  if (level === 0) {
+$("body").keydown(function () {
+  if (!started) {
     nextSequence();
+    started = true;
   }
 });
 
-$(".btn").click(function (e) {
-  e.preventDefault();
+$(".btn").click(function () {
   let userClick = $(this).attr("id");
   userClickPattern.push(userClick);
 
@@ -26,7 +27,7 @@ function nextSequence() {
   level++;
   $("h1").text("Level " + level);
 
-  let random = Math.floor(Math.random() * 4);
+  let random = Math.floor(Math.random() * 5);
   let randomChosenColor = buttonColors[random];
   gamePattern.push(randomChosenColor);
 
@@ -40,6 +41,7 @@ function nextSequence() {
 
 function makeSound(color) {
   let audio = new Audio("sounds/" + color + ".mp3");
+  audio.volume = 0.2;
   audio.play();
 }
 
@@ -59,14 +61,26 @@ function checkAnswer(currentLevel) {
       }, 1000);
     }
   } else {
-    let audio = new Audio("sounds/wrong.mp3");
-    audio.play();
+    makeSound("wrong");
 
     $("body").addClass("game-over");
+    $(".new-game").removeClass("hidden");
+    $("h1").text("You lost. Your score was " + level + ".");
 
     setTimeout(function () {
-      $("h1").text("You lost. Your score was " + level + ".");
       $("body").removeClass("game-over");
     }, 200);
+
+    startOver();
   }
+}
+
+function startOver() {
+  level = 0;
+  gamePattern = [];
+}
+
+function newGame() {
+  $(".new-game").addClass("hidden");
+  nextSequence();
 }
